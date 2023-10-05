@@ -6,8 +6,9 @@ const session = require("express-session");
 const config = require("./config");
 const pool = require("./config/mysql");
 
-const app = express();
+const apiRouter = require("./routes");
 
+const app = express();
 app.set("port", config.port || 3000);
 
 app.use(morgan("dev"));
@@ -26,15 +27,11 @@ app.use(
     },
   })
 );
-
+app.use("/api", apiRouter);
 app.get("/", async (req, res) => {
   try {
     const connection = await pool.getConnection();
     console.log("MySQL 연결 성공");
-
-    // 이런식으로 쿼리를 실행하거나 다른 작업을 수행할 수 있음.
-    // const results = await connection.query('SELECT * FROM mytable');
-
     connection.release(); // 연결 해제
     res.status(200).send("MySQL 연결 성공");
   } catch (error) {
@@ -52,7 +49,6 @@ app.use((err, req, res, next) => {
   res.locals.message = err.message;
   res.locals.error = process.env.NODE_ENV !== "production" ? err : {};
   res.status(err.status || 500);
-  res.render("error");
 });
 
 app.listen(config.port, () => {
