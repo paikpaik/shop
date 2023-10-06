@@ -16,4 +16,12 @@ module.exports = {
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE,
   },
+
+  jwt: {
+    algorithm: process.env.ALGORITHM,
+    expiresInA: process.env.A_EXPIRESIN,
+    accessKey: process.env.ACCESS_SECRET,
+    expiresInR: process.env.R_EXPIRESIN,
+    refreshKey: process.env.REFRESH_SECRET,
+  },
 };

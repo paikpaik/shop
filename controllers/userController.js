@@ -6,14 +6,9 @@ class UserController {
   postUser = async (req, res, next) => {
     try {
       const { email, password, name } = req.body;
-      const alreadyUser = await this.userService.getUserByEmail(email);
-      if (alreadyUser) {
-        if (!alreadyUser.state) {
-          return res.status(400).json({ message: "탈퇴한 계정입니다." });
-        }
-        return res
-          .status(400)
-          .json({ message: "계정이 이미 가입되어 있습니다." });
+      const alreadyUser = await this.userService.alreadyUser(email);
+      if (alreadyUser !== "ok") {
+        return res.status(400).json(alreadyUser);
       }
       const user = await this.userService.createUser({
         email,
@@ -22,10 +17,28 @@ class UserController {
       });
       // req.user = user;
       // next();
-      res.json(user);
+      res.status(200).json(user);
     } catch (error) {
       console.error(error);
-      res.status(500).json({ error: "Internal Server Error - userController" });
+      res
+        .status(500)
+        .json({ error: "Internal Server Error - userController(postUser)" });
+    }
+  };
+
+  authUser = async (req, res, next) => {
+    try {
+      const { email, password } = req.body;
+      const validateLogin = await this.userService.validateLogin(
+        email,
+        password
+      );
+      return res.status(200).json(validateLogin);
+    } catch (error) {
+      console.error(error);
+      return res
+        .status(500)
+        .json({ error: "Internal Server Error - userController(authUser)" });
     }
   };
 }
