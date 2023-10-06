@@ -33,10 +33,10 @@ class UserService {
 
   validateLogin = async (email, password) => {
     const user = await this.userRepository.findByEmail(email);
-    const userPassword = user.password;
-    if (user === null) {
+    if (user === undefined) {
       return { message: "계정이 존재하지 않습니다." };
     }
+    const userPassword = user.password;
     if (!user.state) {
       return { message: "탈퇴한 계정입니다." };
     }
