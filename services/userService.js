@@ -13,7 +13,7 @@ class UserService {
   alreadyUser = async (email) => {
     const alreadyUser = await this.userRepository.findByEmail(email);
     if (alreadyUser) {
-      if (!alreadyUser.state) {
+      if (alreadyUser.state) {
         return { message: "탈퇴한 계정입니다." };
       }
       return { message: "계정이 이미 가입되어 있습니다." };
