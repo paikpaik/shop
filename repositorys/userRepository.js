@@ -12,6 +12,13 @@ class UserRepository {
     return result[0][0];
   };
 
+  findByid = async (userId) => {
+    const sql = `SELECT * FROM user WHERE userId = ?;`;
+    const values = [userId];
+    const result = await this.db.execute(sql, values);
+    return result[0][0];
+  };
+
   createUser = async (email, password, name) => {
     const sql = `INSERT INTO user (email, password, name) VALUES (?, ?, ?);`;
     const [rows] = await this.db.execute(sql, [email, password, name]);

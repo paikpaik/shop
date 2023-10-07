@@ -4,9 +4,11 @@ const morgan = require("morgan");
 const path = require("path");
 const session = require("express-session");
 const config = require("./config");
+const passport = require("passport");
 const pool = require("./config/mysql");
 
 const apiRouter = require("./routes");
+require("./passport")();
 
 const app = express();
 app.set("port", config.port || 3000);
@@ -27,6 +29,8 @@ app.use(
     },
   })
 );
+
+app.use(passport.initialize());
 app.use("/api", apiRouter);
 app.get("/", async (req, res) => {
   try {

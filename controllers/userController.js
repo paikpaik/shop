@@ -1,3 +1,5 @@
+const e = require("express");
+
 class UserController {
   constructor(userService) {
     this.userService = userService;
@@ -39,6 +41,17 @@ class UserController {
       return res
         .status(500)
         .json({ error: "Internal Server Error - userController(authUser)" });
+    }
+  };
+
+  getUser = async (req, res, next) => {
+    try {
+      console.log("여기서 일단 끝");
+    } catch (error) {
+      console.error(error);
+      return res
+        .status(500)
+        .json({ error: "Internal Server Error - userController(getUser)" });
     }
   };
 }
