@@ -97,6 +97,23 @@ class UserService {
     const dormantUser = await this.userRepository.dormantUser(userId, newState);
     return dormantUser;
   };
+
+  existUser = async (email) => {
+    const user = await this.userRepository.findByEmail(email);
+    if (!user) {
+      return { message: "해당 메일의 계정이 존재하지 않습니다." };
+    }
+    if (!user.state) {
+      return { message: "해당 메일의 계정은 탈퇴한 상태입니다." };
+    }
+    return "ok";
+  };
+
+  sendTempPwd = async (email) => {
+    const tempPassword = randomPassword();
+    await sendMail(email, `shop 임시비밀번호입니다.`, `${tempPassword}`);
+    return { message: `${email}으로 임시 비밀번호를 전송했습니다.` };
+  };
 }
 
 module.exports = UserService;

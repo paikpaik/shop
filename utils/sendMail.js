@@ -14,10 +14,10 @@ const sendMail = (to, subject, text) => {
   let contentMessage = "";
   if (subject === "shop 인증코드입니다.") {
     contentMessage = "shop 인증코드입니다. 인증을 완료해 주세요.";
-  } else if (subject === "service1") {
-    contentMessage = "service1";
+  } else if (subject === "shop 임시비밀번호입니다.") {
+    contentMessage = "로그인후 비밀번호를 변경해 주세요.";
   } else {
-    [(contentMessage = "service2")];
+    [(contentMessage = "service1")];
   }
   const { html } = mjml2html(
     `

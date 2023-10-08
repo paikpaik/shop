@@ -108,6 +108,23 @@ class UserController {
         .json({ error: "Internal Server Error - userController(dormantUser)" });
     }
   };
+
+  tempPassword = async (req, res, next) => {
+    try {
+      const { email } = req.body;
+      const existUser = await this.userService.existUser(email);
+      if (existUser !== "ok") {
+        return res.status(400).json(existUser);
+      }
+      const sendTempPwd = await this.userService.sendTempPwd(email);
+      res.status(200).json(sendTempPwd);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+        error: "Internal Server Error - userController(tempPassword)",
+      });
+    }
+  };
 }
 
 module.exports = UserController;
