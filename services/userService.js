@@ -85,6 +85,18 @@ class UserService {
     );
     return updatedUser;
   };
+
+  dormantUserById = async (userId) => {
+    let newState = "";
+    const user = await this.userRepository.findById(userId);
+    if (user.state === 1) {
+      newState = 0;
+    } else {
+      newState = 1;
+    }
+    const dormantUser = await this.userRepository.dormantUser(userId, newState);
+    return dormantUser;
+  };
 }
 
 module.exports = UserService;

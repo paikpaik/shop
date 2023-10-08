@@ -95,6 +95,19 @@ class UserController {
         .json({ error: "Internal Server Error - userController(patchUser)" });
     }
   };
+
+  dormantUser = async (req, res, next) => {
+    try {
+      const { userId } = req.user;
+      const result = await this.userService.dormantUserById(userId);
+      res.status(200).json(result);
+    } catch (error) {
+      console.error(error);
+      return res
+        .status(500)
+        .json({ error: "Internal Server Error - userController(dormantUser)" });
+    }
+  };
 }
 
 module.exports = UserController;

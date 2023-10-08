@@ -58,6 +58,13 @@ class UserRepository {
     const [rows] = await this.db.execute(sql, values);
     return rows;
   };
+
+  dormantUser = async (userId, newState) => {
+    const sql = "UPDATE user SET state = ? WHERE userId = ?";
+    const values = [newState, userId];
+    const [rows] = await this.db.execute(sql, values);
+    return rows;
+  };
 }
 
 module.exports = UserRepository;
