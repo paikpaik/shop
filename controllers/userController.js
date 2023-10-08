@@ -1,5 +1,3 @@
-const e = require("express");
-
 class UserController {
   constructor(userService) {
     this.userService = userService;
@@ -44,9 +42,25 @@ class UserController {
     }
   };
 
+  authEmail = async (req, res, next) => {
+    try {
+      const { email } = req.body;
+      const alreadyUser = await this.userService.alreadyUser(email);
+      if (alreadyUser !== "ok") {
+        return res.status(400).json(alreadyUser);
+      }
+      const authToken = await this.userService.createAuthCode(email);
+      res.status(200).json({ authToken });
+    } catch (error) {
+      console.error(error);
+      return res
+        .status(500)
+        .json({ error: "Internal Server Error - userController(authEmail)" });
+    }
+  };
+
   getUser = async (req, res, next) => {
     try {
-      console.log("여기서 일단 끝");
     } catch (error) {
       console.error(error);
       return res

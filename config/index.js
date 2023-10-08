@@ -23,5 +23,12 @@ module.exports = {
     accessKey: process.env.ACCESS_SECRET,
     expiresInR: process.env.R_EXPIRESIN,
     refreshKey: process.env.REFRESH_SECRET,
+    expiresInC: process.env.C_EXPIRESIN,
+    authcodeKey: process.env.AUTHCODE_SECRET,
+  },
+
+  mailer: {
+    mailerId: process.env.MAILER_ID,
+    mailerPwd: process.env.MAILER_PWD,
   },
 };

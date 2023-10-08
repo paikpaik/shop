@@ -55,8 +55,8 @@ describe("./userService", () => {
       );
     });
 
-    it("user의 state가 1이면 메시지를 반환해야 함.", async () => {
-      userRepositoryMock.findByEmail.mockResolvedValue({ state: true });
+    it("user의 state가 1이 아니면 메시지를 반환해야 함.", async () => {
+      userRepositoryMock.findByEmail.mockResolvedValue({ state: false });
 
       const result = await userService.alreadyUser("test@example.com");
 
@@ -66,8 +66,8 @@ describe("./userService", () => {
       );
     });
 
-    it("user의 state가 1이 아니면 메시지를 반환해야 함.", async () => {
-      userRepositoryMock.findByEmail.mockResolvedValue({ state: false });
+    it("user의 state가 1이면 메시지를 반환해야 함.", async () => {
+      userRepositoryMock.findByEmail.mockResolvedValue({ state: true });
 
       const result = await userService.alreadyUser("test@example.com");
 

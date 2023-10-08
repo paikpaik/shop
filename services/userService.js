@@ -1,5 +1,8 @@
 const { hashPassword, comparePassword } = require("../utils/hashPassword");
 const { setUserToken } = require("../utils/jwt");
+const { randomPassword } = require("../utils/randomPassword");
+const { sendMail } = require("../utils/sendmail");
+const { authcodeToken } = require("../utils/authcodeToken");
 
 class UserService {
   constructor(userRepository) {
@@ -13,7 +16,7 @@ class UserService {
   alreadyUser = async (email) => {
     const alreadyUser = await this.userRepository.findByEmail(email);
     if (alreadyUser) {
-      if (alreadyUser.state) {
+      if (!alreadyUser.state) {
         return { message: "탈퇴한 계정입니다." };
       }
       return { message: "계정이 이미 가입되어 있습니다." };
@@ -49,6 +52,13 @@ class UserService {
       await this.userRepository.saveToken(email, refreshToken);
     }
     return token;
+  };
+
+  createAuthCode = async (email) => {
+    const authCode = randomPassword();
+    await sendMail(email, `tempPassword`, `${authCode}`);
+    const authToken = authcodeToken(authCode);
+    return authToken;
   };
 }
 
