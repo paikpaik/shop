@@ -3,6 +3,7 @@ const cookieParser = require("cookie-parser");
 const morgan = require("morgan");
 const path = require("path");
 const session = require("express-session");
+const mysqlStore = require("express-mysql-session")(session);
 const config = require("./config");
 const passport = require("passport");
 const pool = require("./config/mysql");
@@ -11,6 +12,7 @@ const apiRouter = require("./routes");
 require("./passport")();
 
 const app = express();
+const sessionStore = new mysqlStore({}, pool);
 app.set("port", config.port || 3000);
 
 app.use(morgan("dev"));
@@ -23,6 +25,7 @@ app.use(
     resave: false,
     saveUninitialized: false,
     secret: config.cookieSecret,
+    store: sessionStore,
     cookie: {
       httpOnly: true,
       secure: false,
