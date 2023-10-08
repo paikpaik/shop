@@ -96,7 +96,7 @@ class UserController {
     }
   };
 
-  dormantUser = async (req, res, next) => {
+  deleteUser = async (req, res, next) => {
     try {
       const { userId } = req.user;
       const result = await this.userService.dormantUserById(userId);
