@@ -77,6 +77,4 @@ describe("./userService", () => {
       );
     });
   });
-
-  // Add similar test cases for other methods like createUser and validateLogin
 });
