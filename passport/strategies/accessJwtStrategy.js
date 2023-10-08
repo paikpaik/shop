@@ -10,7 +10,7 @@ const jwtOptions = {
 
 const accessJwtStrategy = new JwtStrategy(jwtOptions, async (payload, done) => {
   try {
-    const user = await userRepository.findByid(payload.userId);
+    const user = await userRepository.findById(payload.userId);
     return done(null, user);
   } catch (error) {
     return done(error, false);

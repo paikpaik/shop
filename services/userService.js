@@ -13,6 +13,11 @@ class UserService {
     return user;
   };
 
+  getUserById = async (userId) => {
+    const user = await this.userRepository.findById(userId);
+    return user;
+  };
+
   alreadyUser = async (email) => {
     const alreadyUser = await this.userRepository.findByEmail(email);
     if (alreadyUser) {

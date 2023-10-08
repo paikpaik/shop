@@ -12,7 +12,7 @@ class UserRepository {
     return result[0][0];
   };
 
-  findByid = async (userId) => {
+  findById = async (userId) => {
     const sql = `SELECT * FROM user WHERE userId = ?;`;
     const values = [userId];
     const result = await this.db.execute(sql, values);
