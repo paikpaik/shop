@@ -61,7 +61,7 @@ class UserService {
 
   createAuthCode = async (email) => {
     const authCode = randomPassword();
-    await sendMail(email, `tempPassword`, `${authCode}`);
+    await sendMail(email, `shop 인증코드입니다.`, `${authCode}`);
     const authToken = authcodeToken(authCode);
     return authToken;
   };

@@ -12,8 +12,8 @@ const transport = nodemailer.createTransport({
 
 const sendMail = (to, subject, text) => {
   let contentMessage = "";
-  if (subject === "tempPassword") {
-    contentMessage = "로그인후 비밀번호를 변경해 주세요.";
+  if (subject === "shop 인증코드입니다.") {
+    contentMessage = "shop 인증코드입니다. 인증을 완료해 주세요.";
   } else if (subject === "service1") {
     contentMessage = "service1";
   } else {
