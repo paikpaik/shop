@@ -65,6 +65,26 @@ class UserService {
     const authToken = authcodeToken(authCode);
     return authToken;
   };
+
+  validatePatch = async ({ name, address, phone, profileImage }) => {
+    if (!name && !address && !phone && !profileImage) {
+      return { message: "업데이트할 내용이 존재하지 않습니다." };
+    }
+    const updatedFields = {};
+    if (name) updatedFields.name = name;
+    if (address) updatedFields.address = address;
+    if (phone) updatedFields.phone = phone;
+    if (profileImage) updatedFields.profileImage = profileImage;
+    return updatedFields;
+  };
+
+  patchUserById = async (userId, updatedFields) => {
+    const updatedUser = await this.userRepository.updateUser(
+      userId,
+      updatedFields
+    );
+    return updatedUser;
+  };
 }
 
 module.exports = UserService;

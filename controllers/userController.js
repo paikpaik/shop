@@ -71,6 +71,30 @@ class UserController {
         .json({ error: "Internal Server Error - userController(getUser)" });
     }
   };
+
+  patchUser = async (req, res, next) => {
+    try {
+      const { userId } = req.user;
+      const { name, address, phone, profileImage } = req.body;
+      const updatedFields = await this.userService.validatePatch({
+        name,
+        address,
+        phone,
+        profileImage,
+      });
+      if (updatedFields.message) return res.status(400).json(updatedFields);
+      const result = await this.userService.patchUserById(
+        userId,
+        updatedFields
+      );
+      res.status(200).json(result);
+    } catch (error) {
+      console.error(error);
+      return res
+        .status(500)
+        .json({ error: "Internal Server Error - userController(patchUser)" });
+    }
+  };
 }
 
 module.exports = UserController;

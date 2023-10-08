@@ -21,13 +21,41 @@ class UserRepository {
 
   createUser = async (email, password, name) => {
     const sql = `INSERT INTO user (email, password, name) VALUES (?, ?, ?);`;
-    const [rows] = await this.db.execute(sql, [email, password, name]);
+    const values = [email, password, name];
+    const [rows] = await this.db.execute(sql, values);
     return rows;
   };
 
   saveToken = async (email, token) => {
     const sql = `UPDATE user SET refreshToken = ? WHERE email = ?`;
-    const [rows] = await this.db.execute(sql, [token, email]);
+    const values = [token, email];
+    const [rows] = await this.db.execute(sql, values);
+    return rows;
+  };
+
+  updateUser = async (userId, updatedFields) => {
+    const { name, address, phone, profileImage } = updatedFields;
+    let sql = "UPDATE user SET";
+    const values = [];
+    if (name !== undefined) {
+      sql += " name = ?,";
+      values.push(name);
+    }
+    if (address !== undefined) {
+      sql += " address = ?,";
+      values.push(address);
+    }
+    if (phone !== undefined) {
+      sql += " phone = ?,";
+      values.push(phone);
+    }
+    if (profileImage !== undefined) {
+      sql += " profileImage = ?,";
+      values.push(profileImage);
+    }
+    sql = sql.replace(/,$/, "") + " WHERE userId = ?";
+    values.push(userId);
+    const [rows] = await this.db.execute(sql, values);
     return rows;
   };
 }
