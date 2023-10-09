@@ -3,6 +3,7 @@ const { setUserToken } = require("../utils/jwt");
 const { randomPassword } = require("../utils/randomPassword");
 const { sendMail } = require("../utils/sendmail");
 const { authcodeToken } = require("../utils/authcodeToken");
+const config = require("../config");
 
 class UserService {
   constructor(userRepository) {
@@ -136,6 +137,15 @@ class UserService {
       hashedPassword
     );
     return changedPwd;
+  };
+
+  patchProfileImage = async (userId, filename) => {
+    const profileImage = `${config.url.devUrl}${filename}`;
+    const result = await this.userRepository.updateProfileById(
+      userId,
+      profileImage
+    );
+    return result;
   };
 }
 

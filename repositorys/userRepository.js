@@ -79,6 +79,13 @@ class UserRepository {
     const [rows] = await this.db.execute(sql, values);
     return rows;
   };
+
+  updateProfileById = async (userId, profileImage) => {
+    const sql = "UPDATE user SET profileImage = ? WHERE userId = ?";
+    const values = [profileImage, userId];
+    const [rows] = await this.db.execute(sql, values);
+    return rows;
+  };
 }
 
 module.exports = UserRepository;

@@ -146,6 +146,23 @@ class UserController {
       });
     }
   };
+
+  patchProfileImage = async (req, res, next) => {
+    try {
+      const { userId } = req.user;
+      const filename = req.file.filename;
+      const patchedProfileImage = await this.userService.patchProfileImage(
+        userId,
+        filename
+      );
+      res.status(200).json(patchedProfileImage);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+        error: "Internal Server Error - userController(patchProfileImage)",
+      });
+    }
+  };
 }
 
 module.exports = UserController;

@@ -31,4 +31,9 @@ module.exports = {
     mailerId: process.env.MAILER_ID,
     mailerPwd: process.env.MAILER_PWD,
   },
+
+  url: {
+    devUrl: process.env.DEV_DOMAIN,
+    prodUrl: process.env.PROD_DOMAIN,
+  },
 };
