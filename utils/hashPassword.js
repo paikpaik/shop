@@ -5,6 +5,7 @@ function hashPassword(password) {
   const hashedPassword = bcrypt.hash(password, saltRounds);
   return hashedPassword;
 }
+
 function comparePassword(password, userPassword) {
   const comparePassword = bcrypt.compare(password, userPassword);
   return comparePassword;

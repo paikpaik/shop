@@ -125,6 +125,18 @@ class UserController {
       });
     }
   };
+
+  patchPassword = async (req, res, next) => {
+    try {
+      const { userId } = req.user;
+      const { currentPwd, changePwd } = req.body;
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+        error: "Internal Server Error - userController(patchPassword)",
+      });
+    }
+  };
 }
 
 module.exports = UserController;

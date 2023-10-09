@@ -94,7 +94,10 @@ class UserService {
     } else {
       newState = 1;
     }
-    const dormantUser = await this.userRepository.dormantUser(userId, newState);
+    const dormantUser = await this.userRepository.updateStateById(
+      userId,
+      newState
+    );
     return dormantUser;
   };
 
@@ -111,8 +114,17 @@ class UserService {
 
   sendTempPwd = async (email) => {
     const tempPassword = randomPassword();
+    const hashedPassword = await hashPassword(tempPassword);
+    await this.userRepository.updatePasswordByEmail(email, hashedPassword);
     await sendMail(email, `shop 임시비밀번호입니다.`, `${tempPassword}`);
     return { message: `${email}으로 임시 비밀번호를 전송했습니다.` };
+  };
+
+  validatePwd = async (userId, currentPwd, changePwd) => {
+    const user = await this.userRepository.findById(userId);
+    if (!(await comparePassword(password, userPassword))) {
+      return { message: "비밀번호가 틀렸습니다." };
+    }
   };
 }
 

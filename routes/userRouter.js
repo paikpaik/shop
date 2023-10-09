@@ -15,4 +15,7 @@ router.patch("/", loginAccess, userController.patchUser);
 // 유저계정휴면(마이페이지)
 router.delete("/", loginAccess, userController.deleteUser);
 
+// 유저비밀번호수정(마이페이지)
+router.patch("/pwd", loginAccess, userController.patchPassword);
+
 module.exports = router;

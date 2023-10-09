@@ -59,9 +59,16 @@ class UserRepository {
     return rows;
   };
 
-  dormantUser = async (userId, newState) => {
+  updateStateById = async (userId, newState) => {
     const sql = "UPDATE user SET state = ? WHERE userId = ?";
     const values = [newState, userId];
+    const [rows] = await this.db.execute(sql, values);
+    return rows;
+  };
+
+  updatePasswordByEmail = async (email, password) => {
+    const sql = "UPDATE user SET password = ? WHERE email = ?";
+    const values = [password, email];
     const [rows] = await this.db.execute(sql, values);
     return rows;
   };
