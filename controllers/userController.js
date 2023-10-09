@@ -163,6 +163,23 @@ class UserController {
       });
     }
   };
+
+  deleteProfileImage = async (req, res, next) => {
+    try {
+      const { userId } = req.user;
+      const filename = "defaultImage.png";
+      const deletedProfileImage = await this.userService.patchProfileImage(
+        userId,
+        filename
+      );
+      res.status(200).json(deletedProfileImage);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+        error: "Internal Server Error - userController(deleteProfileImage)",
+      });
+    }
+  };
 }
 
 module.exports = UserController;
