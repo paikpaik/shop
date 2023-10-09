@@ -49,7 +49,7 @@ class UserService {
       return { message: "탈퇴한 계정입니다." };
     }
     if (!(await comparePassword(password, userPassword))) {
-      return { message: "비밀번호가 틀렸습니다." };
+      return { message: "비밀번호가 일치하지 않습니다." };
     }
     const token = await setUserToken(user, 0);
     if (token.refreshToken) {
@@ -120,11 +120,22 @@ class UserService {
     return { message: `${email}으로 임시 비밀번호를 전송했습니다.` };
   };
 
-  validatePwd = async (userId, currentPwd, changePwd) => {
+  validatePwd = async (userId, currentPwd) => {
     const user = await this.userRepository.findById(userId);
-    if (!(await comparePassword(password, userPassword))) {
-      return { message: "비밀번호가 틀렸습니다." };
+    const userPassword = user.password;
+    if (!(await comparePassword(currentPwd, userPassword))) {
+      return { message: "비밀번호가 일치하지 않습니다." };
     }
+    return "ok";
+  };
+
+  changePwd = async (userId, changePwd) => {
+    const hashedPassword = await hashPassword(changePwd);
+    const changedPwd = await this.userRepository.updatePasswordById(
+      userId,
+      hashedPassword
+    );
+    return changedPwd;
   };
 }
 

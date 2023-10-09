@@ -130,6 +130,15 @@ class UserController {
     try {
       const { userId } = req.user;
       const { currentPwd, changePwd } = req.body;
+      const validatePwd = await this.userService.validatePwd(
+        userId,
+        currentPwd
+      );
+      if (validatePwd !== "ok") {
+        return res.status(400).json(validatePwd);
+      }
+      const changedPwd = await this.userService.changePwd(userId, changePwd);
+      return res.status(200).json(changedPwd);
     } catch (error) {
       console.error(error);
       return res.status(500).json({
