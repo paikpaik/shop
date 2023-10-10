@@ -15,8 +15,6 @@ class UserController {
         password,
         name,
       });
-      // req.user = user;
-      // next();
       res.status(200).json(user);
     } catch (error) {
       console.error(error);
