@@ -5,6 +5,24 @@ class AdminProductService {
     this.productRepository = productRepository;
   }
 
+  allReadProduct = async (page) => {
+    const limit = 10;
+    const startPage = (page - 1) * limit;
+    const total = await this.productRepository.totalCountProduct();
+    const pagingData = await this.productRepository.getProductByPage(
+      limit,
+      startPage
+    );
+    const pageInfo = {
+      currentPage: page,
+      totalPage: Math.ceil(total / limit),
+      prevPage: page > 1 ? page - 1 : null,
+      nextPage: startPage + limit < total ? page + 1 : null,
+    };
+
+    return { pageInfo, pagingData };
+  };
+
   validateProduct = async ({
     filename,
     category,

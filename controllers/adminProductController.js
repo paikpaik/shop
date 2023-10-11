@@ -3,6 +3,21 @@ class AdminProductController {
     this.adminProductService = adminProductService;
   }
 
+  getAllProduct = async (req, res, next) => {
+    try {
+      const page = req.query.page || 1;
+      const allReadProduct = await this.adminProductService.allReadProduct(
+        page
+      );
+      res.status(200).json(allReadProduct);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        error: "Internal Server Error - adminProductController(getAllProduct)",
+      });
+    }
+  };
+
   postProduct = async (req, res, next) => {
     try {
       const filename = req.file.filename;

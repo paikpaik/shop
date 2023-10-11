@@ -5,7 +5,7 @@ const upload = require("../middlewares/upload");
 const router = express.Router();
 
 // 관리자전체상품조회
-//router.get("/", adminProductController.getProduct);
+router.get("/", adminProductController.getAllProduct);
 
 // 관리자상품추가
 router.post(
