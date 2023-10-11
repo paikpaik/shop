@@ -1,8 +1,8 @@
-const express = require("express");
-const { adminController } = require("../dependencies/adminDependency");
+// const express = require("express");
+// const { adminController } = require("../dependencies/adminDependency");
 
-const router = express.Router();
+// const router = express.Router();
 
-router.get("/", adminController.getUser);
+// router.get("/", adminController.getUser);
 
-module.exports = router;
+// module.exports = router;
