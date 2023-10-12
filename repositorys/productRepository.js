@@ -97,6 +97,13 @@ class ProductRepository {
     return rows;
   };
 
+  updateImageUrlById = async (productId, productImage) => {
+    const sql = "UPDATE product SET imageUrl = ? WHERE productId = ?";
+    const values = [productImage, productId];
+    const [rows] = await this.db.execute(sql, values);
+    return rows;
+  };
+
   findById = async (producId) => {
     const sql = `SELECT * FROM product WHERE productId = ?;`;
     const values = [producId];

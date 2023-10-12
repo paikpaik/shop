@@ -75,6 +75,22 @@ class AdminProductController {
     }
   };
 
+  patchProductImage = async (req, res, next) => {
+    try {
+      const productId = req.params.productId;
+      const filename = req.file.filename;
+      const patchedProductImage =
+        await this.adminProductService.patchProductImage(productId, filename);
+      res.status(200).json(patchedProductImage);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        error:
+          "Internal Server Error - adminProductController(patchProductImage)",
+      });
+    }
+  };
+
   getPickProduct = async (req, res, next) => {
     try {
       const allPickedProduct =

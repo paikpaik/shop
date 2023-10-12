@@ -14,6 +14,11 @@ router.post("/", upload.single("imageUrl"), adminProductController.postProduct);
 router.patch("/:productId", adminProductController.patchProduct);
 
 // 관리자상품이미지수정
+router.patch(
+  "/productImage/:productId",
+  upload.single("imageUrl"),
+  adminProductController.patchProductImage
+);
 
 // 관리자추천상품조회
 router.get("/pick", adminProductController.getPickProduct);

@@ -83,6 +83,15 @@ class AdminProductService {
     return updatedFields;
   };
 
+  patchProductImage = async (productId, filename) => {
+    const productImage = `${config.url.devUrl}${filename}`;
+    const result = await this.productRepository.updateImageUrlById(
+      productId,
+      productImage
+    );
+    return result;
+  };
+
   patchProductById = async (productId, updatedFields) => {
     const updatedProduct = await this.productRepository.updateProduct(
       productId,
