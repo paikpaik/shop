@@ -67,6 +67,36 @@ class ProductRepository {
     return rows;
   };
 
+  updateProduct = async (productId, updatedFields) => {
+    const { name, price, discount, discountPrice, description } = updatedFields;
+    let sql = "UPDATE product SET";
+    const values = [];
+    if (name !== undefined) {
+      sql += " name = ?,";
+      values.push(name);
+    }
+    if (price !== undefined) {
+      sql += " price = ?,";
+      values.push(price);
+    }
+    if (discount !== undefined) {
+      sql += " discount = ?,";
+      values.push(discount);
+    }
+    if (discountPrice !== undefined) {
+      sql += " discountPrice = ?,";
+      values.push(discountPrice);
+    }
+    if (description !== undefined) {
+      sql += " description = ?,";
+      values.push(description);
+    }
+    sql = sql.replace(/,$/, "") + " WHERE productId = ?";
+    values.push(productId);
+    const [rows] = await this.db.execute(sql, values);
+    return rows;
+  };
+
   findById = async (producId) => {
     const sql = `SELECT * FROM product WHERE productId = ?;`;
     const values = [producId];

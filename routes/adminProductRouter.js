@@ -8,11 +8,12 @@ const router = express.Router();
 router.get("/", adminProductController.getAllProduct);
 
 // 관리자상품추가
-router.post(
-  "/add",
-  upload.single("imageUrl"),
-  adminProductController.postProduct
-);
+router.post("/", upload.single("imageUrl"), adminProductController.postProduct);
+
+// 관리자상품수정
+router.patch("/:productId", adminProductController.patchProduct);
+
+// 관리자상품이미지수정
 
 // 관리자추천상품조회
 router.get("/pick", adminProductController.getPickProduct);

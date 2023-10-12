@@ -66,6 +66,31 @@ class AdminProductService {
     return createdProduct;
   };
 
+  validatePatch = async ({ name, price, discount, description }) => {
+    if (!name && !price && !discount && !description) {
+      return { message: "업데이트할 내용이 존재하지 않습니다." };
+    }
+    const updatedFields = {};
+    if (name) updatedFields.name = name;
+    if (price) updatedFields.price = price;
+    if (discount) {
+      updatedFields.discount = discount;
+      const discountPrice =
+        Math.floor((price * ((100 - discount) * 0.01)) / 10) * 10;
+      updatedFields.discountPrice = discountPrice;
+    }
+    if (description) updatedFields.description = description;
+    return updatedFields;
+  };
+
+  patchProductById = async (productId, updatedFields) => {
+    const updatedProduct = await this.productRepository.updateProduct(
+      productId,
+      updatedFields
+    );
+    return updatedProduct;
+  };
+
   allPickReadProduct = async () => {
     const isMDPick = 1;
     const pickedProducts = await this.productRepository.getProductByPick(

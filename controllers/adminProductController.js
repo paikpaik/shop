@@ -51,6 +51,30 @@ class AdminProductController {
     }
   };
 
+  patchProduct = async (req, res, next) => {
+    try {
+      const productId = req.params.productId;
+      const { name, price, discount, description } = req.body;
+      const updatedFields = await this.adminProductService.validatePatch({
+        name,
+        price,
+        discount,
+        description,
+      });
+      if (updatedFields.message) return res.status(400).json(updatedFields);
+      const result = await this.adminProductService.patchProductById(
+        productId,
+        updatedFields
+      );
+      res.status(200).json(result);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        error: "Internal Server Error - adminProductController(patchProduct)",
+      });
+    }
+  };
+
   getPickProduct = async (req, res, next) => {
     try {
       const allPickedProduct =
