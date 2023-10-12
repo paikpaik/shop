@@ -26,4 +26,7 @@ router.get("/pick", adminProductController.getPickProduct);
 // 관리자상품추천
 router.patch("/pick/:productId", adminProductController.pickProduct);
 
+// 관리자상품삭제
+router.delete("/delete/:productId", adminProductController.deleteProduct);
+
 module.exports = router;

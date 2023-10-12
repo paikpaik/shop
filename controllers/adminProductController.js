@@ -107,7 +107,7 @@ class AdminProductController {
   pickProduct = async (req, res, next) => {
     try {
       const productId = req.params.productId;
-      const pickedProduct = await this.adminProductService.pickedProduct(
+      const pickedProduct = await this.adminProductService.pickProduct(
         productId
       );
       res.status(200).json(pickedProduct);
@@ -115,6 +115,27 @@ class AdminProductController {
       console.error(error);
       res.status(500).json({
         error: "Internal Server Error - adminProductController(pickProduct)",
+      });
+    }
+  };
+
+  deleteProduct = async (req, res, next) => {
+    try {
+      const productId = req.params.productId;
+      const deletedImage = await this.adminProductService.deleteImage(
+        productId
+      );
+      if (deletedImage !== "ok") {
+        res.status(400).json(deletedImage);
+      }
+      const deletedProduct = await this.adminProductService.deleteProduct(
+        productId
+      );
+      res.status(200).json(deletedProduct);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        error: "Internal Server Error - adminProductController(deleteProduct)",
       });
     }
   };

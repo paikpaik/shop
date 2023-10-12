@@ -5,6 +5,13 @@ class ProductRepository {
     this.db = db || mysql;
   }
 
+  getProductById = async (productId) => {
+    const sql = `SELECT * FROM product WHERE productId = ?`;
+    const values = [productId];
+    const [rows] = await this.db.execute(sql, values);
+    return rows[0];
+  };
+
   totalCountProduct = async () => {
     const sql = `SELECT COUNT(*) AS total FROM product`;
     const [rows] = await this.db.execute(sql);
@@ -121,6 +128,13 @@ class ProductRepository {
   updateIsMDPickById = async (productId, NewIsMDPick) => {
     const sql = "UPDATE product SET isMDPick = ? WHERE productId = ?";
     const values = [NewIsMDPick, productId];
+    const [rows] = await this.db.execute(sql, values);
+    return rows;
+  };
+
+  deleteProductById = async (productId) => {
+    const sql = `DELETE FROM product WHERE productId = ?`;
+    const values = [productId];
     const [rows] = await this.db.execute(sql, values);
     return rows;
   };

@@ -1,4 +1,6 @@
 const config = require("../config");
+const path = require("path");
+const fs = require("fs").promises;
 
 class AdminProductService {
   constructor(productRepository) {
@@ -111,7 +113,7 @@ class AdminProductService {
     return pickedProducts;
   };
 
-  pickedProduct = async (productId) => {
+  pickProduct = async (productId) => {
     let newIsMDPick = "";
     const product = await this.productRepository.findById(productId);
     if (product.isMDPick === 0) {
@@ -124,6 +126,29 @@ class AdminProductService {
       newIsMDPick
     );
     return pickedProduct;
+  };
+
+  deleteImage = async (productId) => {
+    const product = await this.productRepository.getProductById(productId);
+    if (!product) {
+      return { message: "삭제할 상품이 존재하지 않습니다." };
+    }
+    const deletedImageUrl = product.imageUrl;
+    const deletedImagePath = deletedImageUrl.replace(config.url.devUrl, "");
+    const deletedUrlPath = path.join(__dirname, "../public", deletedImagePath);
+    if (deletedImageUrl) {
+      await fs.unlink(deletedUrlPath, (err) => {
+        if (err) return { message: "상품이미지 삭제에 실패했습니다." };
+      });
+    }
+    return "ok";
+  };
+
+  deleteProduct = async (productId) => {
+    const deletedProduct = await this.productRepository.deleteProductById(
+      productId
+    );
+    return deletedProduct;
   };
 }
 
