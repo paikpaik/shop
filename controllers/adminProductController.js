@@ -51,6 +51,19 @@ class AdminProductController {
     }
   };
 
+  getPickProduct = async (req, res, next) => {
+    try {
+      const allPickedProduct =
+        await this.adminProductService.allPickReadProduct();
+      res.status(200).json(allPickedProduct);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        error: "Internal Server Error - adminProductController(getPickProduct)",
+      });
+    }
+  };
+
   pickProduct = async (req, res, next) => {
     try {
       const productId = req.params.productId;

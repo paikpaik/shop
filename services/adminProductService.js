@@ -66,6 +66,17 @@ class AdminProductService {
     return createdProduct;
   };
 
+  allPickReadProduct = async () => {
+    const isMDPick = 1;
+    const pickedProducts = await this.productRepository.getProductByPick(
+      isMDPick
+    );
+    if (pickedProducts.length > 6) {
+      return pickedProducts.slice(0, 6);
+    }
+    return pickedProducts;
+  };
+
   pickedProduct = async (productId) => {
     let newIsMDPick = "";
     const product = await this.productRepository.findById(productId);

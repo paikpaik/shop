@@ -74,6 +74,13 @@ class ProductRepository {
     return rows[0];
   };
 
+  getProductByPick = async (isMDPick) => {
+    const sql = `SELECT * FROM product WHERE isMDPick = ?;`;
+    const values = [isMDPick];
+    const [rows] = await this.db.execute(sql, values);
+    return rows;
+  };
+
   updateIsMDPickById = async (productId, NewIsMDPick) => {
     const sql = "UPDATE product SET isMDPick = ? WHERE productId = ?";
     const values = [NewIsMDPick, productId];
