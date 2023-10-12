@@ -8,15 +8,15 @@ class UserRepository {
   findByEmail = async (email) => {
     const sql = `SELECT * FROM user WHERE email = ?;`;
     const values = [email];
-    const result = await this.db.execute(sql, values);
-    return result[0][0];
+    const [rows] = await this.db.execute(sql, values);
+    return rows[0];
   };
 
   findById = async (userId) => {
     const sql = `SELECT * FROM user WHERE userId = ?;`;
     const values = [userId];
-    const result = await this.db.execute(sql, values);
-    return result[0][0];
+    const [rows] = await this.db.execute(sql, values);
+    return rows[0];
   };
 
   createUser = async (email, password, name) => {

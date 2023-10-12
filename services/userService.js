@@ -1,3 +1,5 @@
+const path = require("path");
+const fs = require("fs").promises;
 const { hashPassword, comparePassword } = require("../utils/hashPassword");
 const { setUserToken } = require("../utils/jwt");
 const { randomPassword } = require("../utils/randomPassword");
@@ -137,6 +139,15 @@ class UserService {
       hashedPassword
     );
     return changedPwd;
+  };
+
+  deleteImage = async (imageUrl) => {
+    const deletedImagePath = imageUrl.replace(config.url.devUrl, "");
+    const deletedUrlPath = path.join(__dirname, "../public", deletedImagePath);
+    await fs.unlink(deletedUrlPath, (err) => {
+      if (err) return { message: "프로필이미지 삭제에 실패했습니다." };
+    });
+    return "ok";
   };
 
   patchProfileImage = async (userId, filename) => {

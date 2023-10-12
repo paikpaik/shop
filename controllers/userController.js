@@ -148,6 +148,14 @@ class UserController {
   patchProfileImage = async (req, res, next) => {
     try {
       const { userId } = req.user;
+      const user = await this.userService.getUserById(userId);
+      const imageUrl = user.profileImage;
+      if (imageUrl) {
+        const deletedImage = await this.userService.deleteImage(imageUrl);
+        if (deletedImage !== "ok") {
+          res.status(400).json(deletedImage);
+        }
+      }
       const filename = req.file.filename;
       const patchedProfileImage = await this.userService.patchProfileImage(
         userId,
@@ -165,6 +173,14 @@ class UserController {
   deleteProfileImage = async (req, res, next) => {
     try {
       const { userId } = req.user;
+      const user = await this.userService.getUserById(userId);
+      const imageUrl = user.profileImage;
+      if (imageUrl) {
+        const deletedImage = await this.userService.deleteImage(imageUrl);
+        if (deletedImage !== "ok") {
+          res.status(400).json(deletedImage);
+        }
+      }
       const filename = "defaultImage.png";
       const deletedProfileImage = await this.userService.patchProfileImage(
         userId,
