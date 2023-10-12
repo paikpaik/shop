@@ -66,6 +66,20 @@ class ProductRepository {
     [rows] = await this.db.execute(sql, values);
     return rows;
   };
+
+  findById = async (producId) => {
+    const sql = `SELECT * FROM product WHERE productId = ?;`;
+    const values = [producId];
+    const [rows] = await this.db.execute(sql, values);
+    return rows[0];
+  };
+
+  updateIsMDPickById = async (productId, NewIsMDPick) => {
+    const sql = "UPDATE product SET isMDPick = ? WHERE productId = ?";
+    const values = [NewIsMDPick, productId];
+    const [rows] = await this.db.execute(sql, values);
+    return rows;
+  };
 }
 
 module.exports = ProductRepository;

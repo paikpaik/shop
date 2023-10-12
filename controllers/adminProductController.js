@@ -50,6 +50,21 @@ class AdminProductController {
       });
     }
   };
+
+  pickProduct = async (req, res, next) => {
+    try {
+      const productId = req.params.productId;
+      const pickedProduct = await this.adminProductService.pickedProduct(
+        productId
+      );
+      res.status(200).json(pickedProduct);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        error: "Internal Server Error - adminProductController(pickProduct)",
+      });
+    }
+  };
 }
 
 module.exports = AdminProductController;

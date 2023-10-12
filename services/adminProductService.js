@@ -65,6 +65,21 @@ class AdminProductService {
     );
     return createdProduct;
   };
+
+  pickedProduct = async (productId) => {
+    let newIsMDPick = "";
+    const product = await this.productRepository.findById(productId);
+    if (product.isMDPick === 0) {
+      newIsMDPick = 1;
+    } else {
+      newIsMDPick = 0;
+    }
+    const pickedProduct = await this.productRepository.updateIsMDPickById(
+      productId,
+      newIsMDPick
+    );
+    return pickedProduct;
+  };
 }
 
 module.exports = AdminProductService;

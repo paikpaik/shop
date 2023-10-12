@@ -14,4 +14,9 @@ router.post(
   adminProductController.postProduct
 );
 
+// 관리자상품추천
+router.patch("/pick/:productId", adminProductController.pickProduct);
+
+// 관리자추천상품조회
+
 module.exports = router;
