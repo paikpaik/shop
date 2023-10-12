@@ -12,8 +12,6 @@ class ProductRepository {
   };
 
   getProductByPage = async (limit, startPage) => {
-    console.log(limit);
-    console.log(startPage);
     const sql = `SELECT p.productId, c.category, p.name, p.price, p.discount, p.discountPrice, p.imageUrl, p.description
     FROM product p
     JOIN category c ON p.categoryId = c.categoryId
@@ -22,7 +20,6 @@ class ProductRepository {
     OFFSET ?`;
     const values = [limit + "", startPage + ""];
     const [rows] = await this.db.execute(sql, values);
-    //console.log(rows);
     return rows;
   };
 

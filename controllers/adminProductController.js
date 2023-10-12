@@ -5,7 +5,7 @@ class AdminProductController {
 
   getAllProduct = async (req, res, next) => {
     try {
-      const page = req.query.page || 1;
+      const page = parseInt(req.query.page || 1);
       const allReadProduct = await this.adminProductService.allReadProduct(
         page
       );
