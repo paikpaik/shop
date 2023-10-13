@@ -43,6 +43,15 @@ class ProductRepository {
     return rows;
   };
 
+  getCategoryProducts = async (category, sort, page) => {
+    const result = await productSortAndPaging(null, category, sort, page);
+    const { query, pageSize, skip } = result;
+    const sql = query;
+    const values = [`${category}`, pageSize + "", skip + ""];
+    const [rows] = await this.db.execute(sql, values);
+    return rows;
+  };
+
   /*******************
    ***    Common   ***
    *******************/

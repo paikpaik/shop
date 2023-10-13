@@ -7,7 +7,7 @@ function productSortAndPaging(keyword, category, sort, page) {
   if (keyword) {
     whereClause = `WHERE p.name LIKE ?`;
   } else if (category) {
-    whereClause = `WHERE p.categoryId = '${category}'`;
+    whereClause = `WHERE c.category = ?`;
   }
 
   const orderBy =
