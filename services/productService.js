@@ -45,6 +45,22 @@ class ProductService {
     }
     return content;
   };
+
+  readProduct = async (productId) => {
+    const product = await this.productRepository.getProductById(productId);
+    if (product === undefined) {
+      return {
+        message: "요청하신 상품 아이디에 해당하는 상품이 존재하지 않습니다.",
+      };
+    }
+    const content = await productMapping([product]);
+    if (content.length === 0) {
+      return {
+        message: "요청하신 상품 아이디에 해당하는 상품이 존재하지 않습니다.",
+      };
+    }
+    return content;
+  };
 }
 
 module.exports = ProductService;

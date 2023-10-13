@@ -3,7 +3,7 @@ class ProductController {
     this.productService = productService;
   }
 
-  getProduct = async (req, res, next) => {
+  getProducts = async (req, res, next) => {
     try {
       // sort: [new, max_price, min_price, max_discount(default)]
       const { sort, page } = req.query;
@@ -15,12 +15,28 @@ class ProductController {
     } catch (error) {
       console.error(error);
       res.status(500).json({
+        error: "Internal Server Error - adminProductController(getProducts)",
+      });
+    }
+  };
+
+  getProduct = async (req, res, next) => {
+    try {
+      const productId = req.params.productId;
+      const product = await this.productService.readProduct(productId);
+      if (product.message) {
+        return res.status(400).json(product);
+      }
+      res.status(200).json(product);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
         error: "Internal Server Error - adminProductController(getProduct)",
       });
     }
   };
 
-  searchProduct = async (req, res, next) => {
+  searchProducts = async (req, res, next) => {
     try {
       // sort: [new, max_price, min_price, max_discount(default)]
       const { keyword, sort, page } = req.query;
@@ -36,12 +52,12 @@ class ProductController {
     } catch (error) {
       console.error(error);
       res.status(500).json({
-        error: "Internal Server Error - adminProductController(searchProduct)",
+        error: "Internal Server Error - adminProductController(searchProducts)",
       });
     }
   };
 
-  categoryProduct = async (req, res, next) => {
+  categoryProducts = async (req, res, next) => {
     try {
       // sort: [new, max_price, min_price, max_discount(default)]
       const { category, sort, page } = req.query;
@@ -58,7 +74,7 @@ class ProductController {
       console.error(error);
       res.status(500).json({
         error:
-          "Internal Server Error - adminProductController(categoryProduct)",
+          "Internal Server Error - adminProductController(categoryProducts)",
       });
     }
   };
