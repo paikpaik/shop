@@ -1,26 +1,24 @@
 function productMapping(items) {
   const content = items.map(
     ({
-      productName,
+      category,
+      name,
       price,
       discount,
       discountPrice,
-      startDate,
-      endDate,
       imageUrl,
-      productId,
-      _id,
+      description,
     }) => ({
-      productName,
+      category,
+      name,
       price,
       discount,
       discountPrice,
-      startDate,
-      endDate,
       imageUrl,
-      productId,
-      _id,
+      description,
     })
   );
   return content;
 }
+
+module.exports = { productMapping };

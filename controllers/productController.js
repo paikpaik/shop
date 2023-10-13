@@ -8,6 +8,9 @@ class ProductController {
       // sort: [new, max_price, min_price, max_discount]
       const { sort, page } = req.query;
       const products = await this.productService.readAllProduct(sort, page);
+      if (products.message) {
+        return res.status(400).json(products);
+      }
       res.status(200).json(products);
     } catch (error) {
       console.error(error);
