@@ -34,6 +34,15 @@ class ProductRepository {
     return rows;
   };
 
+  getSearchProducts = async (keyword, sort, page) => {
+    const result = await productSortAndPaging(keyword, null, sort, page);
+    const { query, pageSize, skip } = result;
+    const sql = query;
+    const values = [`%${keyword}%`, pageSize + "", skip + ""];
+    const [rows] = await this.db.execute(sql, values);
+    return rows;
+  };
+
   /*******************
    ***    Common   ***
    *******************/

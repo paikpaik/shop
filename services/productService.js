@@ -13,6 +13,22 @@ class ProductService {
     }
     return content;
   };
+
+  readSearchProduct = async (keyword, sort, page) => {
+    if (!keyword) {
+      return { message: "검색어를 입력해주세요." };
+    }
+    const searchProducts = await this.productRepository.getSearchProducts(
+      keyword,
+      sort,
+      page
+    );
+    const content = await productMapping(searchProducts);
+    if (content.length === 0) {
+      return { message: "검색된 상품이 없습니다." };
+    }
+    return content;
+  };
 }
 
 module.exports = ProductService;
