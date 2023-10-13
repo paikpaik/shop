@@ -30,7 +30,7 @@ class AdminProductController {
         price,
         description,
       });
-      if (validateProduct !== "ok") {
+      if (validateProduct.message) {
         return res.status(400).json(validateProduct);
       }
       const createProduct = await this.adminProductService.createProduct({
@@ -141,7 +141,7 @@ class AdminProductController {
       const deletedImage = await this.adminProductService.deleteImage(
         productId
       );
-      if (deletedImage !== "ok") {
+      if (deletedImage.message) {
         res.status(400).json(deletedImage);
       }
       const deletedProduct = await this.adminProductService.deleteProduct(

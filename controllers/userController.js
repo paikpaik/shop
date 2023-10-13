@@ -7,7 +7,7 @@ class UserController {
     try {
       const { email, password, name } = req.body;
       const alreadyUser = await this.userService.alreadyUser(email);
-      if (alreadyUser !== "ok") {
+      if (alreadyUser.message) {
         return res.status(400).json(alreadyUser);
       }
       const user = await this.userService.createUser({
@@ -44,7 +44,7 @@ class UserController {
     try {
       const { email } = req.body;
       const alreadyUser = await this.userService.alreadyUser(email);
-      if (alreadyUser !== "ok") {
+      if (alreadyUser.message) {
         return res.status(400).json(alreadyUser);
       }
       const authToken = await this.userService.createAuthCode(email);
@@ -111,7 +111,7 @@ class UserController {
     try {
       const { email } = req.body;
       const existUser = await this.userService.existUser(email);
-      if (existUser !== "ok") {
+      if (existUser.message) {
         return res.status(400).json(existUser);
       }
       const sendTempPwd = await this.userService.sendTempPwd(email);
@@ -132,7 +132,7 @@ class UserController {
         userId,
         currentPwd
       );
-      if (validatePwd !== "ok") {
+      if (validatePwd.message) {
         return res.status(400).json(validatePwd);
       }
       const changedPwd = await this.userService.changePwd(userId, changePwd);
@@ -152,7 +152,7 @@ class UserController {
       const imageUrl = user.profileImage;
       if (imageUrl) {
         const deletedImage = await this.userService.deleteImage(imageUrl);
-        if (deletedImage !== "ok") {
+        if (deletedImage.message) {
           res.status(400).json(deletedImage);
         }
       }
@@ -177,7 +177,7 @@ class UserController {
       const imageUrl = user.profileImage;
       if (imageUrl) {
         const deletedImage = await this.userService.deleteImage(imageUrl);
-        if (deletedImage !== "ok") {
+        if (deletedImage.message) {
           res.status(400).json(deletedImage);
         }
       }
