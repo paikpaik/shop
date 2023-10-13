@@ -1,10 +1,42 @@
 const mysql = require("../config/mysql");
+const { productSortAndPaging } = require("../myfx/query");
 
 class ProductRepository {
   constructor(db) {
     this.db = db || mysql;
   }
+  /*******************
+   ***    Admin    ***
+   *******************/
 
+  getProductByPage = async (limit, startPage) => {
+    const sql = `SELECT p.*, c.category
+    FROM product p
+    JOIN category c ON p.categoryId = c.categoryId
+    ORDER BY p.productId DESC
+    LIMIT ?
+    OFFSET ?`;
+    const values = [limit + "", startPage + ""];
+    const [rows] = await this.db.execute(sql, values);
+    return rows;
+  };
+
+  /*******************
+   ***    User     ***
+   *******************/
+
+  getAllProducts = async (sort, page) => {
+    const result = await productSortAndPaging(null, null, sort, page);
+    const { query, pageSize, skip } = result;
+    const sql = query;
+    const values = [pageSize + "", skip + ""];
+    const [rows] = await this.db.execute(sql, values);
+    return rows;
+  };
+
+  /*******************
+   ***    Common   ***
+   *******************/
   getProductById = async (productId) => {
     const sql = `SELECT * FROM product WHERE productId = ?`;
     const values = [productId];
@@ -16,18 +48,6 @@ class ProductRepository {
     const sql = `SELECT COUNT(*) AS total FROM product`;
     const [rows] = await this.db.execute(sql);
     return rows[0].total;
-  };
-
-  getProductByPage = async (limit, startPage) => {
-    const sql = `SELECT p.productId, c.category, p.name, p.price, p.discount, p.discountPrice, p.imageUrl, p.description
-    FROM product p
-    JOIN category c ON p.categoryId = c.categoryId
-    ORDER BY p.productId DESC
-    LIMIT ?
-    OFFSET ?`;
-    const values = [limit + "", startPage + ""];
-    const [rows] = await this.db.execute(sql, values);
-    return rows;
   };
 
   createProduct = async (
