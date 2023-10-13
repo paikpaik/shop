@@ -10,6 +10,9 @@ router.get("/", adminProductController.getAllProduct);
 // 관리자상품추가
 router.post("/", upload.single("imageUrl"), adminProductController.postProduct);
 
+// 관리자상품상세조회
+router.get("/:productId", adminProductController.getProduct);
+
 // 관리자상품수정
 router.patch("/:productId", adminProductController.patchProduct);
 

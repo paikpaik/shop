@@ -51,6 +51,22 @@ class AdminProductController {
     }
   };
 
+  getProduct = async (req, res, next) => {
+    try {
+      const productId = req.params.productId;
+      const product = await this.adminProductService.readProduct(productId);
+      if (product.message) {
+        return res.status(400).json(product);
+      }
+      res.status(200).json(product);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        error: "Internal Server Error - adminProductController(getProduct)",
+      });
+    }
+  };
+
   patchProduct = async (req, res, next) => {
     try {
       const productId = req.params.productId;

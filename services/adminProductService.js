@@ -68,6 +68,16 @@ class AdminProductService {
     return createdProduct;
   };
 
+  readProduct = async (productId) => {
+    const product = await this.productRepository.getProductById(productId);
+    if (product === undefined) {
+      return {
+        message: "요청하신 상품 아이디에 해당하는 상품이 존재하지 않습니다.",
+      };
+    }
+    return product;
+  };
+
   validatePatch = async ({ name, price, discount, description }) => {
     if (!name && !price && !discount && !description) {
       return { message: "업데이트할 내용이 존재하지 않습니다." };
