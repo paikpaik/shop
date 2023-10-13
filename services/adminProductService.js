@@ -137,8 +137,8 @@ class AdminProductService {
     const deletedImagePath = deletedImageUrl.replace(config.url.devUrl, "");
     const deletedUrlPath = path.join(__dirname, "../public", deletedImagePath);
     if (deletedImageUrl) {
-      await fs.unlink(deletedUrlPath, (err) => {
-        if (err) return { message: "상품이미지 삭제에 실패했습니다." };
+      await fs.unlink(deletedUrlPath, (error) => {
+        if (error) return { message: "상품이미지 삭제에 실패했습니다." };
       });
     }
     return "ok";
