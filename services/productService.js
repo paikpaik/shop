@@ -61,6 +61,22 @@ class ProductService {
     }
     return content;
   };
+
+  mdPickProducts = async (sort, page) => {
+    const isMDPick = 1;
+    const mdPickedProducts = await this.productRepository.getIsMDPickProducts(
+      isMDPick,
+      sort,
+      page
+    );
+    const content = await productMapping(mdPickedProducts);
+    if (content.length === 0) {
+      return {
+        message: "현재 MD의 추천상품이 존재하지 않습니다.",
+      };
+    }
+    return content;
+  };
 }
 
 module.exports = ProductService;

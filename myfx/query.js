@@ -1,5 +1,5 @@
-function productSortAndPaging(keyword, category, sort, page) {
-  const pageSize = 12;
+function productSortAndPaging(keyword, category, isMDPick, sort, page) {
+  let pageSize = 12;
   const currentPage = page || 1;
   const skip = (currentPage - 1) * pageSize;
 
@@ -8,6 +8,9 @@ function productSortAndPaging(keyword, category, sort, page) {
     whereClause = `WHERE p.name LIKE ?`;
   } else if (category) {
     whereClause = `WHERE c.category = ?`;
+  } else if (isMDPick) {
+    whereClause = `WHERE p.isMDPick = ?`;
+    pageSize = 6;
   }
 
   const orderBy =

@@ -125,7 +125,7 @@ class AdminProductService {
 
   pickProduct = async (productId) => {
     let newIsMDPick = "";
-    const product = await this.productRepository.findById(productId);
+    const product = await this.productRepository.getProductById(productId);
     if (product.isMDPick === 0) {
       newIsMDPick = 1;
     } else {

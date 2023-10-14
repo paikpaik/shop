@@ -78,6 +78,25 @@ class ProductController {
       });
     }
   };
+
+  getIsMDPick = async (req, res, next) => {
+    try {
+      const { sort, page } = req.query;
+      const mdPickedProducts = await this.productService.mdPickProducts(
+        sort,
+        page
+      );
+      if (mdPickedProducts.message) {
+        return res.status(400).json(mdPickedProducts);
+      }
+      res.status(200).json(mdPickedProducts);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        error: "Internal Server Error - adminProductController(getIsMDPick)",
+      });
+    }
+  };
 }
 
 module.exports = ProductController;
