@@ -34,6 +34,9 @@ class UserService {
 
   createUser = async ({ email, password, name }) => {
     const hashedPassword = await hashPassword(password);
+    if (hashedPassword.length < 20) {
+      return { message: "비밀번호를 암호화 하는데 실패했습니다." };
+    }
     const createdUser = await this.userRepository.createUser(
       email,
       hashedPassword,
