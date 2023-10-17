@@ -23,9 +23,9 @@ describe("UserRepository", () => {
     });
     it("이메일을 인자로 db에 이메일이 있으면 user객체를 리턴", async () => {
       const sut = new UserRepository(db);
-      const expected = undefined;
+      const expected = { email: "test@test.com" };
       const result = await sut.findByEmail("test@test.com");
-      expect(result).not.toEqual(expected);
+      expect(result).toEqual(expect.objectContaining(expected));
     });
   });
 });
