@@ -1,4 +1,5 @@
 const mysql = require("../config/mysql");
+const { hashPassword } = require("../utils/hashPassword");
 const UserRepository = require("./userRepository");
 
 let db;
@@ -41,6 +42,36 @@ describe("UserRepository", () => {
       const expected = { userId: 2 };
       const result = await sut.findById(2);
       expect(result).toEqual(expect.objectContaining(expected));
+    });
+  });
+
+  describe("createUser", () => {
+    let hashedPassword;
+    beforeEach(async () => {
+      hashedPassword = await hashPassword("123456");
+    });
+    afterEach(() => {
+      hashedPassword = "";
+    });
+    it("email, password, name을 인자로 user객체를 생성", async () => {
+      const sut = new UserRepository(db);
+      const password = hashedPassword;
+      const expected = { affectedRows: 1 };
+      const result = await sut.createUser("test5@test.com", password, "test5");
+      expect(result).toEqual(expect.objectContaining(expected));
+    });
+    it("email, password, name중 인자가 부족하면 에러를 던짐", async () => {
+      const sut = new UserRepository(db);
+      const password = hashedPassword;
+      try {
+        const result = await sut.createUser("test4@test.com", password);
+        expect(result).toBeUndefined();
+      } catch (error) {
+        expect(error).toBeInstanceOf(Error);
+        expect(error.message).toBe(
+          "Bind parameters must not contain undefined. To pass SQL NULL specify JS null"
+        );
+      }
     });
   });
 });
