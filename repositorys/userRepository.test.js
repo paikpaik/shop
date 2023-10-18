@@ -28,4 +28,19 @@ describe("UserRepository", () => {
       expect(result).toEqual(expect.objectContaining(expected));
     });
   });
+
+  describe("findById", () => {
+    it("userId를 인자로 db에 userId가 없으면 undefined를 리턴", async () => {
+      const sut = new UserRepository(db);
+      const expected = undefined;
+      const result = await sut.findById(1);
+      expect(result).toEqual(expected);
+    });
+    it("userId를 인자로 db에 userId가 있으면 user 객체를 리턴", async () => {
+      const sut = new UserRepository(db);
+      const expected = { userId: 2 };
+      const result = await sut.findById(2);
+      expect(result).toEqual(expect.objectContaining(expected));
+    });
+  });
 });
