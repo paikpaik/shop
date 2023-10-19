@@ -1,5 +1,7 @@
+const { compareSync } = require("bcrypt");
 const mysql = require("../config/mysql");
 const { hashPassword } = require("../utils/hashPassword");
+const { setUserToken } = require("../utils/jwt");
 const UserRepository = require("./userRepository");
 
 let db;
@@ -57,7 +59,7 @@ describe("UserRepository", () => {
       const sut = new UserRepository(db);
       const password = hashedPassword;
       const expected = { affectedRows: 1 };
-      const result = await sut.createUser("test5@test.com", password, "test5");
+      const result = await sut.createUser(`test8@test.com`, password, `test8`);
       expect(result).toEqual(expect.objectContaining(expected));
     });
     it("email, password, name중 인자가 부족하면 에러를 던짐", async () => {
@@ -72,6 +74,39 @@ describe("UserRepository", () => {
           "Bind parameters must not contain undefined. To pass SQL NULL specify JS null"
         );
       }
+    });
+  });
+
+  describe("saveToken", () => {
+    let token;
+    let user;
+    beforeEach(async () => {
+      user = {
+        userId: 7,
+        name: "test4",
+        email: "test4@test.com",
+        password:
+          "$2b$10$G98iR9Be3r50d7iQ4GqedOnExffS/VSaIV3B8NBN0cPcP1J8T/Ar.",
+        phone: "",
+        address: "",
+        profileImage: "http://localhost:3000/defaultImage.png",
+        refreshToken: "",
+        isAdmin: 0,
+        state: 1,
+        creatdAt: "2023-10-18T09:09:53.000Z",
+      };
+      token = await setUserToken(user, 0);
+    });
+    afterEach(() => {
+      user = "";
+      token = "";
+    });
+    it("이메일과 토큰이 들어오면 해당 이메일을 가진 유저의 토큰이 갱신됨.", async () => {
+      const sut = new UserRepository(db);
+      const tokenValue = token.refreshToken;
+      const expected = { affectedRows: 1 };
+      const result = await sut.saveToken("test4@test.com", tokenValue);
+      expect(result).toEqual(expect.objectContaining(expected));
     });
   });
 });
