@@ -92,7 +92,7 @@ describe("UserRepository", () => {
         refreshToken: "",
         isAdmin: 0,
         state: 1,
-        creatdAt: "2023-10-18T09:09:53.000Z",
+        createdAt: "2023-10-18T09:09:53.000Z",
       };
       token = await setUserToken(user, 0);
     });
