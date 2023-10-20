@@ -1,4 +1,3 @@
-const { compareSync } = require("bcrypt");
 const mysql = require("../config/mysql");
 const { hashPassword } = require("../utils/hashPassword");
 const { setUserToken } = require("../utils/jwt");
@@ -106,6 +105,34 @@ describe("UserRepository", () => {
       const tokenValue = token.refreshToken;
       const expected = { affectedRows: 1 };
       const result = await sut.saveToken("test4@test.com", tokenValue);
+      expect(result).toEqual(expect.objectContaining(expected));
+    });
+  });
+  describe("updateUser", () => {
+    it("userId와 name이 있으면 name만 변경됨. ", async () => {
+      const sut = new UserRepository(db);
+      const expected = { affectedRows: 1 };
+      const result = await sut.updateUser(7, { name: "updateTest" });
+      expect(result).toEqual(expect.objectContaining(expected));
+    });
+    it("userId와 address가 있으면 address만 변경됨. ", async () => {
+      const sut = new UserRepository(db);
+      const expected = { affectedRows: 1 };
+      const result = await sut.updateUser(7, { address: "USA" });
+      expect(result).toEqual(expect.objectContaining(expected));
+    });
+    it("userId와 phone이 있으면 phone만 변경됨. ", async () => {
+      const sut = new UserRepository(db);
+      const expected = { affectedRows: 1 };
+      const result = await sut.updateUser(7, { phone: "010-0000-0000" });
+      expect(result).toEqual(expect.objectContaining(expected));
+    });
+    it("userId와 profileImage가 있으면 profileImage만 변경됨. ", async () => {
+      const sut = new UserRepository(db);
+      const expected = { affectedRows: 1 };
+      const result = await sut.updateUser(7, {
+        profileImage: "http://localhost:3000/profileImage.png",
+      });
       expect(result).toEqual(expect.objectContaining(expected));
     });
   });
