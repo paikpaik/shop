@@ -136,4 +136,18 @@ describe("UserRepository", () => {
       expect(result).toEqual(expect.objectContaining(expected));
     });
   });
+  describe.only("updateStateById", () => {
+    it("newState와 userId가 있으면 user의 state가 변경됨.", async () => {
+      const sut = new UserRepository(db);
+      const expected = { affectedRows: 1 };
+      const result = await sut.updateStateById(7, 0);
+      expect(result).toEqual(expect.objectContaining(expected));
+    });
+    it("newState와 userId가 있으면 user의 state가 변경됨.", async () => {
+      const sut = new UserRepository(db);
+      const expected = { affectedRows: 1 };
+      const result = await sut.updateStateById(7, 1);
+      expect(result).toEqual(expect.objectContaining(expected));
+    });
+  });
 });
