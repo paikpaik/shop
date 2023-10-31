@@ -1,7 +1,7 @@
 {
   "name": "shop",
   "version": "0.0.1",
-  "description": "shop for all of us.",
+  "description": "shop using express, mysql, only sql.",
   "main": "app.js",
   "scripts": {
     "start": "nodemon app",
