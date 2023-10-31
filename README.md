@@ -1,2 +1,2 @@
 # shop
-shop for all of us.
+shop using express, mysql, only sql
