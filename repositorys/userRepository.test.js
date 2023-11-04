@@ -136,7 +136,7 @@ describe("UserRepository", () => {
       expect(result).toEqual(expect.objectContaining(expected));
     });
   });
-  describe.only("updateStateById", () => {
+  describe("updateStateById", () => {
     it("newState와 userId가 있으면 user의 state가 변경됨.", async () => {
       const sut = new UserRepository(db);
       const expected = { affectedRows: 1 };
@@ -149,5 +149,8 @@ describe("UserRepository", () => {
       const result = await sut.updateStateById(7, 1);
       expect(result).toEqual(expect.objectContaining(expected));
     });
+  });
+  describe.only("updatePasswordByEmail", () => {
+    it("email과 password가 있으면 user의 password가 변경됨", async () => {});
   });
 });
