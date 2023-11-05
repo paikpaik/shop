@@ -152,5 +152,6 @@ describe("UserRepository", () => {
   });
   describe.only("updatePasswordByEmail", () => {
     it("email과 password가 있으면 user의 password가 변경됨", async () => {});
+    it("email이 있고 password가 hash가 안되어 있으면 에러를 던짐", async () => {});
   });
 });
